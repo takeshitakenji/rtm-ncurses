@@ -19,9 +19,9 @@ supported_vars = frozenset([
 history_size=20
 max_view_height=200
 
-rtm_api_key = ""
-rtm_shared_secret = ""
-rtm_token = ""
+rtm_api_key = None
+rtm_shared_secret = None
+rtm_token = None
 
 if 'HOME' in environ:
   HOME = environ['HOME']
