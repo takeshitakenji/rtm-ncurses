@@ -27,10 +27,9 @@ else:
   print >>stderr, 'Unable to determine home directory; setting defaults'
 
 configuration_file = join(HOME, '.config', 'rtmcurses.conf')
-conf_regex = compile(r'^\s*(\S+)\s*=\s*(.*?)$')
 if isfile(configuration_file):
   with open(configuration_file, 'rU') as f:
-    configuration_parser.read(f)
+    configuration_parser.readfp(f)
 else:
   print >>stderr, 'No such file: %s Setting defaults' % configuration_file
 
