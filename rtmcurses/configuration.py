@@ -8,14 +8,20 @@ from os import environ
 from sys import stderr
 from re import compile
 
-supported_vars = dict(
-  history_size=20,
-  max_view_height=200,
+supported_vars = frozenset([
+  'history_size',
+  'max_view_height',
+  'rtm_api_key',
+  'rtm_shared_secret',
+  'rtm_token',
+])
 
-  rtm_api_key = "",
-  rtm_shared_secret = "",
-  rtm_token = "",
-)
+history_size=20
+max_view_height=200
+
+rtm_api_key = ""
+rtm_shared_secret = ""
+rtm_token = ""
 
 if 'HOME' in environ:
   HOME = environ['HOME']
@@ -39,12 +45,8 @@ if isfile(configuration_file):
               value = None
             elif value.isdigit():
               value = int(value)
-            supported_vars[m.group(1)] = value
+            globals()[m.group(1)] = value
         else:
           print >>stderr, 'Invalid syntax:', line
 else:
   print >>stderr, 'No such file: %s Setting defaults' % configuration_file
-
-
-for key, value in supported_vars.iteritems():
-  setattr(__builtins__, key, value)
