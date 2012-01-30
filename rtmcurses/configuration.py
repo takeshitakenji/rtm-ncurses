@@ -25,16 +25,20 @@ else:
   print >>stderr, 'Unable to determine home directory; setting defaults'
 
 configuration_file = join(HOME, '.rtmcurses.conf')
-conf_regex = compile(r'^(\S+)\s*=\s*(.*?)$')
+conf_regex = compile(r'^\s*(\S+)\s*=\s*(.*?)$')
 if isfile(configuration_file):
   with open(configuration_file, 'rU') as f:
     for line in f:
       line = line.rstrip()
-      if not line.startswith('#'):
+      if line and not line.startswith('#'):
         m = conf_regex.search(line)
         if m:
           if m.group(1) in supported_vars:
-            value = int(m.group(2)) if m.group(2).isdigit() else value
+            value = m.group(2)
+            if not value:
+              value = None
+            elif value.isdigit():
+              value = int(value)
             supported_vars[m.group(1)] = value
         else:
           print >>stderr, 'Invalid syntax:', line
